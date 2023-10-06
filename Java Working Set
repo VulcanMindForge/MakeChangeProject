@@ -1,0 +1,20 @@
+Java Working Set
+Package
+Class
+
+Create new repository
+
+copy quick setup for create a new repository
+
+open terminal and cd to project folder
+
+past quick setup command
+
+create .gitignore file
+add ".DS_Store"
+add "bin"
+
+git add .
+git commit -m ""
+git push
+
