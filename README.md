@@ -1,1 +1,4 @@
 # MakeChangeProject
+
+Initializing...
+Initalizing..
