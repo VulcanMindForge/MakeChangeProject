@@ -11,49 +11,18 @@ import java.util.Scanner;
 public class Register {
 
 	public static void main(String[] args) {
-		// Declare Scanner and other variables for Main
+		// Declare Scanner and loop variable
 		Scanner kb = new Scanner(System.in);
-		double amountPayed, amountChange, itemCost;
-		int nextCustomer;
 		boolean isCustomer = true;
-		
-		// Greet user
+
+		// print a greeting
 		greeting();
 
-		// Prompt user if customers are present, if so loop through customer transactions, if not say goodbye.
+		// infinite loop based on user input custPrompt()
 		while (isCustomer) {
-			
-			System.out.println();
-			System.out.println("Are you ready to take the next customer?");
-			System.out.println("\t1: Yes");
-			System.out.println("\t2: No");
-			nextCustomer = kb.nextInt();
-			kb.nextLine();
-			
-			//Perform customer transaction, if change is needed call change method, if exact change thank customer, if not enough let customer know remaining cost.
-			if (nextCustomer == 1) {
-				System.out.println("Please enter the cost of the item being purchased: ");
-				itemCost = kb.nextDouble();
-				kb.nextLine();
 
-				System.out.println("Please enter the amount the customer gave you for the item: ");
-				amountPayed = kb.nextDouble();
-				kb.nextLine();
-
-				amountChange = amountPayed - itemCost;
-
-				if (amountChange > 0) {
-					cashDrawer();
-
-					System.out.printf("The customer's change is %.2f\n", amountChange);
-
-					changeLoop(amountChange);
-				} else if (amountChange == 0) {
-					System.out.println("Thank you for providing exact change");
-				} else {
-					itemCost = itemCost - amountPayed;
-					System.out.printf("I am sorry, this is not enough. You still owe: %.2f\n", itemCost);
-				}
+			if (custReady(kb) == 1) {
+				doTransaction(kb);
 			} else {
 				isCustomer = false;
 				farewell();
@@ -63,14 +32,55 @@ public class Register {
 		kb.close();
 	}
 
-	// function: Iterate through all denominations in the switch. Modify initial i value to match number of cases in changeSwitch
+	// function: prompt user for input if ready.
+	public static int custReady(Scanner kb) {
+		System.out.println();
+		System.out.println("Are you ready to take the next customer?");
+		System.out.println("\t1: Yes");
+		System.out.println("\t2: No");
+		System.out.println();
+		int nextCustomer = kb.nextInt();
+		kb.nextLine();
+		return nextCustomer;
+	}
+	
+	// function: perform transaction
+	public static void doTransaction(Scanner kb) {
+		double amountPayed, amountChange, itemCost;
+		System.out.print("Please enter the cost of the item being purchased: \n$");
+		itemCost = kb.nextDouble();
+		kb.nextLine();
+
+		System.out.print("Please enter the amount the customer gave you for the item: \n$");
+		amountPayed = kb.nextDouble();
+		kb.nextLine();
+
+		amountChange = amountPayed - itemCost;
+
+		if (amountChange == 0) {
+			System.out.println("Thank you for providing exact change.");
+		} else if (amountChange < 0) {
+			itemCost = itemCost - amountPayed;
+			System.out.printf("I am sorry, this is not enough. You still owe: $%.2f\n", itemCost);
+		} else {
+			cashDrawer();
+
+			System.out.printf("The customer's change is $%.2f\n", amountChange);
+
+			changeLoop(amountChange);
+	    }
+
+	}
+
+	// value to match number of cases in changeSwitch
 	public static void changeLoop(double change) {
 		for (int i = 8; i > 0; i--) {
 			change = changeSwitch(i, change);
 		}
 	}
 
-	// function: switch to set denominations. Modify to whichever monetary system is needed.
+	// function: switch to set denominations. Modify to whichever monetary system is
+	// needed.
 	public static double changeSwitch(int switchNum, double change) {
 		double denomValue = 0.0;
 		String denomination = "";
@@ -122,7 +132,8 @@ public class Register {
 		}
 	}
 
-	// function: calculate and print proper amounts of change for customer. Modify "Pennies" string to match lowest denomination and round appropriately
+	// function: calculate and print proper amounts of change for customer. Modify
+	// "Pennies" string to match lowest denomination and round appropriately
 	public static double numMonies(String denomName, double denomination, double amount) {
 		double amountLeft = 0;
 		double preNumMonies = 0;
@@ -149,47 +160,33 @@ public class Register {
 	// fun image
 	public static void cashDrawer() {
 		System.out.println();
-		System.out.print ("         ______________________________  \n" 
-						+ "        /       /       /      /      /  \n"
-						+ "       /       /       /      /      /   \n" 
-						+ "      / [$20] / [$10] / [$5] / [$1] /    \n"
-						+ "     /       /       /      /      /     \n" 
-						+ "    /_______/_______/______/______/      \n"
-						+ "   /       /       /      /      /       \n" 
-						+ "  / [25¢] / [10¢] / [5¢] / [1¢] /        \n"
-						+ " /_______/_______/______/______/         \n");
+		System.out.print("         ______________________________  \n" + "        /       /       /      /      /  \n"
+				+ "       /       /       /      /      /   \n" + "      / [$20] / [$10] / [$5] / [$1] /    \n"
+				+ "     /       /       /      /      /     \n" + "    /_______/_______/______/______/      \n"
+				+ "   /       /       /      /      /       \n" + "  / [25¢] / [10¢] / [5¢] / [1¢] /        \n"
+				+ " /_______/_______/______/______/         \n");
 		System.out.println();
 	}
 
 	// Greeting image
 	public static void greeting() {
 		System.out.println();
-		System.out.print ("        _____   _____   _____  ___   \n" 
-						+ "       /    /  /    /  /    / /   \\ \n"
-						+ "      /    /  /    /  /    / /    /  \n" 
-						+ "     /  __   /    /  /    / /    /   \n" 
-						+ "    /____/  /____/  /____/ /____/    \n"
-						+ "        ___                          \n" 
-						+ "       /   \\   /\\   \\   /         \n" 
-						+ "      /    /  /__\\   \\ /           \n" 
-						+ "     /    /  /    \\   /             \n" 
-						+ "    /____/  /      \\ /              \n");
+		System.out.print("        _____   _____   _____  ___   \n" + "       /    /  /    /  /    / /   \\ \n"
+				+ "      /    /  /    /  /    / /    /  \n" + "     /  __   /    /  /    / /    /   \n"
+				+ "    /____/  /____/  /____/ /____/    \n" + "        ___                          \n"
+				+ "       /   \\   /\\   \\   /         \n" + "      /    /  /__\\   \\ /           \n"
+				+ "     /    /  /    \\   /             \n" + "    /____/  /      \\ /              \n");
 		System.out.println();
 	}
 
 	// farewell image
 	public static void farewell() {
 		System.out.println();
-		System.out.print ("        _____   _____   _____  ___   \n" 
-						+ "       /       /    /  /    / /   \\ \n"
-						+ "      /       /    /  /    / /    /  \n" 
-						+ "     /  __   /    /  /    / /    /   \n" 
-						+ "    /____/  /____/  /____/ /____/    \n"
-						+ "        ___                _____     \n" 
-						+ "       /   \\   \\   /     /        \n" 
-						+ "      /____/    \\ /     /____      \n" 
-						+ "     /    /      /     /            \n" 
-						+ "    /____/      /     /_____        \n");
+		System.out.print("        _____   _____   _____  ___   \n" + "       /       /    /  /    / /   \\ \n"
+				+ "      /       /    /  /    / /    /  \n" + "     /  __   /    /  /    / /    /   \n"
+				+ "    /____/  /____/  /____/ /____/    \n" + "        ___                _____     \n"
+				+ "       /   \\   \\   /     /        \n" + "      /____/    \\ /     /____      \n"
+				+ "     /    /      /     /            \n" + "    /____/      /     /_____        \n");
 		System.out.println();
 	}
 
