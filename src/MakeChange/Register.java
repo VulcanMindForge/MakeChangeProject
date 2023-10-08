@@ -41,6 +41,9 @@ public class Register {
 		System.out.println();
 		int nextCustomer = kb.nextInt();
 		kb.nextLine();
+		
+		String readyMsg = nextCustomer < 3 && nextCustomer > 0 ? "" : "I'm sorry that is not a valid option, please restart me.";
+		System.out.println(readyMsg);
 		return nextCustomer;
 	}
 	
@@ -66,7 +69,7 @@ public class Register {
 			cashDrawer();
 
 			System.out.printf("The customer's change is $%.2f\n", amountChange);
-
+			System.out.println();
 			changeLoop(amountChange);
 	    }
 
